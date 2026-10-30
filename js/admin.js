@@ -30,7 +30,7 @@ const ADM_SCHEMA = [
     {path:'projects.title', t:'input', l:'栏目标题'},
     {path:'projects.subtitle', t:'input', l:'栏目副标题（英文）'}
   ], items:{path:'projects.items',
-    fields:[ {k:'icon',l:'图标（emoji）'},{k:'name',l:'名称'},{k:'desc',l:'描述',t:'area',wide:true},{k:'chips',l:'标签（逗号分隔）',wide:true} ]}},
+    fields:[ {k:'icon',l:'图标（emoji）'},{k:'name',l:'名称'},{k:'desc',l:'描述',t:'area',wide:true},{k:'chips',l:'标签（逗号分隔）',wide:true},{k:'link',l:'链接（可选，填了卡片就能点击访问）',wide:true} ]}},
   { sec:'博客', fields:[
     {path:'blog.title', t:'input', l:'栏目标题'},
     {path:'blog.subtitle', t:'input', l:'栏目副标题（英文）'}
