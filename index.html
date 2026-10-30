@@ -223,6 +223,7 @@ if (new URLSearchParams(location.search).has('shot')) {
 })();
 
 /* 滚动入场动画 */
+  (function(){
   const io = new IntersectionObserver(es=>{
     es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
   }, {threshold:.12});
@@ -231,6 +232,7 @@ if (new URLSearchParams(location.search).has('shot')) {
 
 /* 导航高亮 */
   const links = document.querySelectorAll('.nav-in a[href^="#"]');
+  (function(){
   const io = new IntersectionObserver(es=>{
     es.forEach(e=>{
       if (e.isIntersecting){
