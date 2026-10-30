@@ -1,163 +1,167 @@
 {
-  "site": {
-    "title": "南风入巷 · 个人主页",
-    "logoA": "南风",
-    "logoB": "入巷",
-    "footer": "© 2026 南风入巷 · 用 AI 与双手构建 · Powered by curiosity"
-  },
-  "hero": {
-    "hello": "Hello World，我是——",
-    "nameCn": "陈礼智",
-    "nameEn": "Leo Chen",
-    "tags": [
-      "物联网工程 · 2024 级",
-      "ENTP",
-      "贵州黔东南",
-      "硬件 × 代码"
-    ],
-    "intro": "喜欢把想法做成能跑的东西：从单片机的定时器到浏览器插件，从 AI 小应用到个人网站。相信动手是最好的学习方式。",
-    "btnPrimary": "看看我的项目",
-    "btnGhost": "联系我"
-  },
-  "about": {
-    "title": "关于我",
-    "subtitle": "About Me",
-    "avatar": "南",
-    "paragraphs": [
-      "我是南风入巷（Leo Chen），大连某高校 2024 级物联网工程专业本科生。日常在硬件与软件的交界处折腾：写 C 点亮单片机，用 Python 处理数据，也用 AI 工具快速搭网页和小应用。",
-      "课余关注 CS 电竞赛事，喜欢读元末明初那段历史，也爱和朋友们讨论哲学问题。性格上是个典型的 ENTP——点子多、好奇心重、想到就做。",
-      "这个小站是我学习轨迹的存档点：项目、笔记和阶段性的思考都会沉淀在这里。"
-    ]
-  },
-  "skills": {
-    "title": "技能栈",
-    "subtitle": "Skills",
-    "items": [
-      {
-        "icon": "⚙️",
-        "name": "C 语言 / 单片机",
-        "desc": "51 与 STM32 基础外设开发，定时器、串口、中断驱动",
-        "level": 82
-      },
-      {
-        "icon": "🐍",
-        "name": "Python",
-        "desc": "数据处理、脚本自动化与课程项目开发",
-        "level": 75
-      },
-      {
-        "icon": "🌐",
-        "name": "Web 前端",
-        "desc": "HTML / CSS / JavaScript，能独立完成响应式页面与浏览器插件",
-        "level": 70
-      },
-      {
-        "icon": "🗄️",
-        "name": "MySQL / 数据库",
-        "desc": "建表设计、SQL 查询与 Java + MySQL 课程大作业实践",
-        "level": 65
-      },
-      {
-        "icon": "☕",
-        "name": "Java 基础",
-        "desc": "面向对象编程、集合与 JDBC 数据库连接",
-        "level": 60
-      },
-      {
-        "icon": "🤖",
-        "name": "AI 辅助开发",
-        "desc": "用 AI 编码工具完成 PRD → 技术设计 → 实现的完整流程",
-        "level": 85
-      }
-    ]
-  },
-  "projects": {
-    "title": "项目",
-    "subtitle": "Projects",
-    "items": [
-      {
-        "icon": "🧩",
-        "name": "图提取 ImageGrab",
-        "desc": "Chrome 电商图片批量提取插件：智能过滤、画廊预览、一键批量转 PNG 下载。",
-        "chips": [
-          "Chrome 扩展",
-          "MV3",
-          "Canvas"
-        ]
-      },
-      {
-        "icon": "📖",
-        "name": "墨阅 · TXT 阅读器",
-        "desc": "本地电子书阅读器 MVP：UTF-8/GBK 编码识别、阅读进度记忆、字号调节。",
-        "chips": [
-          "HTML5",
-          "File API",
-          "Electron 规划"
-        ]
-      },
-      {
-        "icon": "🌍",
-        "name": "AI 翻译助手",
-        "desc": "百度秒哒搭建的多语言翻译 Web 应用，已部署上线。",
-        "chips": [
-          "AI 应用",
-          "低代码"
-        ]
-      },
-      {
-        "icon": "⛅",
-        "name": "天气查询网页",
-        "desc": "Bolt 生成的实时天气查询站点，支持城市搜索与未来预报展示。",
-        "chips": [
-          "API",
-          "部署上线"
-        ]
-      },
-      {
-        "icon": "⏱️",
-        "name": "单片机定时器实验",
-        "desc": "基于定时器中断的数码管时钟与按键调时，Keil + Proteus 联合仿真。",
-        "chips": [
-          "C51",
-          "Proteus"
-        ]
-      },
-      {
-        "icon": "🌤️",
-        "name": "更多正在路上",
-        "desc": "计划中的：校园二手书小程序、宿舍功耗监测小终端……",
-        "chips": [
-          "Planning"
-        ]
-      }
-    ]
-  },
-  "blog": {
-    "title": "博客",
-    "subtitle": "Blog",
-    "items": [
-      {
-        "title": "从需求到 PRD：我用 AI 完成一个插件的全过程",
-        "meta": "2026-10-27 · 开发手记",
-        "link": "#blog"
-      },
-      {
-        "title": "定时器中断入门：让单片机学会\"看表\"",
-        "meta": "2026-10-14 · 嵌入式",
-        "link": "#blog"
-      },
-      {
-        "title": "为什么我坚持\"先跑通，再优化\"",
-        "meta": "2026-09-30 · 随笔",
-        "link": "#blog"
-      }
-    ]
-  },
-  "contact": {
-    "title": "联系我",
-    "subtitle": "Contact",
-    "heading": "有想法想聊聊？欢迎联系",
-    "email": "nanfeng@example.com",
-    "githubUser": "@nanfeng"
-  }
+    "site":  {
+                 "title":  "南风入巷 · 个人主页",
+                 "logoA":  "南风",
+                 "logoB":  "入巷",
+                 "footer":  "© 2026 南风入巷 · 用 AI 与双手构建 · Powered by curiosity"
+             },
+    "hero":  {
+                 "hello":  "Hello World，我是——",
+                 "nameCn":  "陈礼智",
+                 "nameEn":  "Leo Chen",
+                 "tags":  [
+                              "物联网工程 · 2024 级",
+                              "ENTP",
+                              "贵州黔东南",
+                              "硬件 × 代码"
+                          ],
+                 "intro":  "喜欢把想法做成能跑的东西：从单片机的定时器到浏览器插件，从 AI 小应用到个人网站。相信动手是最好的学习方式。",
+                 "btnPrimary":  "看看我的项目",
+                 "btnGhost":  "联系我"
+             },
+    "about":  {
+                  "title":  "关于我",
+                  "subtitle":  "About Me",
+                  "avatar":  "南",
+                  "paragraphs":  [
+                                     "我是南风入巷（Leo Chen），大连某高校 2024 级物联网工程专业本科生。日常在硬件与软件的交界处折腾：写 C 点亮单片机，用 Python 处理数据，也用 AI 工具快速搭网页和小应用。",
+                                     "课余关注 CS 电竞赛事，喜欢读元末明初那段历史，也爱和朋友们讨论哲学问题。性格上是个典型的 ENTP——点子多、好奇心重、想到就做。",
+                                     "这个小站是我学习轨迹的存档点：项目、笔记和阶段性的思考都会沉淀在这里。"
+                                 ]
+              },
+    "skills":  {
+                   "title":  "技能栈",
+                   "subtitle":  "Skills",
+                   "items":  [
+                                 {
+                                     "icon":  "⚙️",
+                                     "name":  "C 语言 / 单片机",
+                                     "desc":  "51 与 STM32 基础外设开发，定时器、串口、中断驱动",
+                                     "level":  82
+                                 },
+                                 {
+                                     "icon":  "🐍",
+                                     "name":  "Python",
+                                     "desc":  "数据处理、脚本自动化与课程项目开发",
+                                     "level":  75
+                                 },
+                                 {
+                                     "icon":  "🌐",
+                                     "name":  "Web 前端",
+                                     "desc":  "HTML / CSS / JavaScript，能独立完成响应式页面与浏览器插件",
+                                     "level":  70
+                                 },
+                                 {
+                                     "icon":  "🗄️",
+                                     "name":  "MySQL / 数据库",
+                                     "desc":  "建表设计、SQL 查询与 Java + MySQL 课程大作业实践",
+                                     "level":  65
+                                 },
+                                 {
+                                     "icon":  "☕",
+                                     "name":  "Java 基础",
+                                     "desc":  "面向对象编程、集合与 JDBC 数据库连接",
+                                     "level":  60
+                                 },
+                                 {
+                                     "icon":  "🤖",
+                                     "name":  "AI 辅助开发",
+                                     "desc":  "用 AI 编码工具完成 PRD → 技术设计 → 实现的完整流程",
+                                     "level":  85
+                                 }
+                             ]
+               },
+    "projects":  {
+                     "title":  "项目",
+                     "subtitle":  "Projects",
+                     "items":  [
+                                   {
+                                       "icon":  "🧩",
+                                       "name":  "图提取 ImageGrab",
+                                       "desc":  "Chrome 电商图片批量提取插件：智能过滤、画廊预览、一键批量转 PNG 下载。",
+                                       "chips":  [
+                                                     "Chrome 扩展",
+                                                     "MV3",
+                                                     "Canvas"
+                                                 ],
+                                       "link":  "https://leo-chen66.github.io/image-grab-plugin/#download"
+                                   },
+                                   {
+                                       "icon":  "📖",
+                                       "name":  "墨阅 · TXT 阅读器",
+                                       "desc":  "本地电子书阅读器 MVP：UTF-8/GBK 编码识别、阅读进度记忆、字号调节。",
+                                       "chips":  [
+                                                     "HTML5",
+                                                     "File API",
+                                                     "Electron 规划"
+                                                 ],
+                                       "link":  "https://leo-chen66.github.io/reader-app/reader.html"
+                                   },
+                                   {
+                                       "icon":  "🌍",
+                                       "name":  "AI 翻译助手",
+                                       "desc":  "百度秒哒搭建的多语言翻译 Web 应用，已部署上线。",
+                                       "chips":  [
+                                                     "AI 应用",
+                                                     "低代码"
+                                                 ],
+                                       "link":  "https://app-fdgl6nckkykh.miaoda.online/"
+                                   },
+                                   {
+                                       "icon":  "⛅",
+                                       "name":  "天气查询网页",
+                                       "desc":  "Bolt 生成的实时天气查询站点，支持城市搜索与未来预报展示。",
+                                       "chips":  [
+                                                     "API",
+                                                     "部署上线"
+                                                 ],
+                                       "link":  "https://minimalist-weather-w-mffy.bolt.host/#weather"
+                                   },
+                                   {
+                                       "icon":  "⏱️",
+                                       "name":  "单片机定时器实验",
+                                       "desc":  "基于定时器中断的数码管时钟与按键调时，Keil + Proteus 联合仿真。",
+                                       "chips":  [
+                                                     "C51",
+                                                     "Proteus"
+                                                 ]
+                                   },
+                                   {
+                                       "icon":  "🌤️",
+                                       "name":  "更多正在路上",
+                                       "desc":  "计划中的：校园二手书小程序、宿舍功耗监测小终端……",
+                                       "chips":  [
+                                                     "Planning"
+                                                 ]
+                                   }
+                               ]
+                 },
+    "blog":  {
+                 "title":  "博客",
+                 "subtitle":  "Blog",
+                 "items":  [
+                               {
+                                   "title":  "从需求到 PRD：我用 AI 完成一个插件的全过程",
+                                   "meta":  "2026-10-27 · 开发手记",
+                                   "link":  "#blog"
+                               },
+                               {
+                                   "title":  "定时器中断入门：让单片机学会\"看表\"",
+                                   "meta":  "2026-10-14 · 嵌入式",
+                                   "link":  "#blog"
+                               },
+                               {
+                                   "title":  "为什么我坚持\"先跑通，再优化\"",
+                                   "meta":  "2026-09-30 · 随笔",
+                                   "link":  "#blog"
+                               }
+                           ]
+             },
+    "contact":  {
+                    "title":  "联系我",
+                    "subtitle":  "Contact",
+                    "heading":  "有想法想聊聊？欢迎联系",
+                    "email":  "nanfeng@example.com",
+                    "githubUser":  "@nanfeng"
+                }
 }
