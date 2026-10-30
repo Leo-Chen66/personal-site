@@ -286,7 +286,7 @@ function admBuild(){
 
   const form = admEl('div'); form.id = 'adm-form';
   panel.appendChild(form);
-  panel.appendChild(admEl('p', 'adm-note', '没有 Token？到 GitHub → Settings → Developer settings → Personal access tokens 生成一个，勾选 repo 权限即可。'));
+  const note = admEl('p', 'adm-note');  note.innerHTML = '没有 Token？<a href="https://github.com/settings/tokens/new?scopes=repo&description=personal-site-admin" target="_blank">点这里一键创建</a>（已自动勾好 repo 权限，过期时间随意选），生成后复制 ghp_ 开头的一整串，粘贴到上面的 Token 框即可。';  panel.appendChild(note);
 
   layer.appendChild(mask); layer.appendChild(panel);
   document.body.appendChild(layer);
