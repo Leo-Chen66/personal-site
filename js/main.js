@@ -100,6 +100,7 @@ function applyContent(d){
         c.querySelector('p').textContent = it.desc;
         const chips = c.querySelector('.chips');
         (it.chips || []).forEach(ch => { const s = document.createElement('span'); s.className = 'chip'; s.textContent = ch; chips.appendChild(s); });
+        if (it.link){ c.style.cursor = 'pointer'; c.addEventListener('click', () => window.open(it.link, '_blank', 'noopener')); }
         return c;
       });
     }
