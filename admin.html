@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>后台管理 · 个人主页</title>
+<style>
+  :root{
+    --bg:#0B0F1A; --bg2:#111827; --card:rgba(255,255,255,.045);
+    --line:rgba(255,255,255,.09); --ink:#E8ECF4; --muted:#8B93A7;
+    --accent:#6366F1; --accent2:#8B5CF6; --grad:linear-gradient(120deg,#6366F1,#8B5CF6);
+    --ok:#34D399; --err:#F87171;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;line-height:1.65;padding:32px 16px 80px}
+  .wrap{max-width:860px;margin:0 auto}
+  h1{font-size:24px;font-weight:800;margin-bottom:6px}
+  h1 b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .desc{color:var(--muted);font-size:13.5px;margin-bottom:24px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:18px}
+  .card h2{font-size:16px;margin-bottom:14px;font-weight:700}
+  .row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:12px}
+  .f{flex:1;min-width:220px}
+  label{display:block;font-size:12.5px;color:var(--muted);margin-bottom:5px}
+  input[type=text],input[type=password],textarea,select{
+    width:100%;background:var(--bg2);border:1px solid var(--line);border-radius:9px;color:var(--ink);
+    padding:9px 12px;font-size:14px;font-family:inherit;outline:none;transition:border-color .2s}
+  input:focus,textarea:focus{border-color:var(--accent)}
+  textarea{resize:vertical;min-height:64px}
+  textarea.code{font-family:ui-monospace,Consolas,monospace;font-size:13px}
+  .item{border:1px dashed var(--line);border-radius:10px;padding:14px;margin-bottom:12px;position:relative}
+  .item .del{position:absolute;top:10px;right:10px;background:none;border:none;color:var(--err);cursor:pointer;font-size:13px;padding:2px 6px}
+  .item .del:hover{text-decoration:underline}
+  .addbtn{background:none;border:1px dashed var(--line);color:var(--muted);border-radius:9px;padding:8px 14px;cursor:pointer;font-size:13px;width:100%}
+  .addbtn:hover{border-color:var(--accent);color:var(--ink)}
+  .bar{position:sticky;top:0;z-index:5;background:rgba(11,15,26,.92);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
+  .btn{border:none;border-radius:9px;padding:10px 20px;font-size:14px;cursor:pointer;font-weight:600;transition:all .2s}
+  .btn.pri{background:var(--grad);color:#fff}
+  .btn.pri:hover{transform:translateY(-1px)}
+  .btn.ghost{background:none;border:1px solid var(--line);color:var(--ink)}
+  .btn.ghost:hover{border-color:var(--accent)}
+  .status{font-size:13px;margin-left:auto}
+  .status.ok{color:var(--ok)} .status.err{color:var(--err)} .status.busy{color:var(--muted)}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px}
+  .hint a{color:var(--accent);text-decoration:none}
+  .mini{font-size:12px;color:var(--muted)}
+  code{background:var(--bg2);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>个人主页 · <b>后台管理</b></h1>
+  <p class="desc">在这里编辑网站内容，点「保存到 GitHub」后约 1～2 分钟，线上网站对所有访客生效。内容保存在仓库的 <code>content.json</code>，Token 只保存在你自己的浏览器里，不会经过任何第三方。</p>
+
+  <div class="bar">
+    <button class="btn pri" id="saveBtn">保存到 GitHub</button>
+    <button class="btn ghost" id="loadBtn">从线上重新加载</button>
+    <button class="btn ghost" id="exportBtn">导出 JSON 备份</button>
+    <span class="status" id="status"></span>
+  </div>
+
+  <div class="card">
+    <h2>连接设置</h2>
+    <div class="row">
+      <div class="f"><label>GitHub 仓库（owner/repo）</label><input type="text" id="repo" value="Leo-Chen66/personal-site"></div>
+      <div class="f"><label>Personal Access Token（需 repo 权限）</label><input type="password" id="token" placeholder="ghp_..."></div>
+    </div>
+    <div class="row" style="margin-bottom:0">
+      <label style="display:flex;align-items:center;gap:6px;margin:0;color:var(--muted);font-size:13px"><input type="checkbox" id="remember" style="width:auto"> 在此浏览器记住 Token</label>
+      <span class="mini">没有 Token？去 <a href="https://github.com/settings/tokens/new?scopes=repo&description=personal-site%20admin" target="_blank" style="color:var(--accent)">GitHub 生成</a>（勾选 repo 即可，可设过期时间）</span>
+    </div>
+  </div>
+
+  <div id="form"></div>
+</div>
+
+<script>
+'use strict';
+/* ============ 内容表单定义（schema 驱动） ============
+   t: input | area | lines(每行一项) | items(卡片列表) */
+const SCHEMA = [
+  { sec:'基本信息', fields:[
+    {path:'site.title', t:'input', l:'浏览器标题'},
+    {path:'site.logoA', t:'input', l:'Logo 前半（普通色）'},
+    {path:'site.logoB', t:'input', l:'Logo 后半（渐变色）'},
+    {path:'site.footer', t:'input', l:'页脚文字'}
+  ]},
+  { sec:'首屏 Hero', fields:[
+    {path:'hero.hello', t:'input', l:'打招呼语'},
+    {path:'hero.nameCn', t:'input', l:'名字（中文）'},
+    {path:'hero.nameEn', t:'input', l:'名字（英文）'},
+    {path:'hero.intro', t:'area', l:'一句话介绍'},
+    {path:'hero.btnPrimary', t:'input', l:'主按钮文字'},
+    {path:'hero.btnGhost', t:'input', l:'次按钮文字'}
+  ]},
+  { sec:'首屏标签', fields:[], lists:[{path:'hero.tags', t:'lines', l:'标签（每行一个）'}]},
+  { sec:'关于我', fields:[
+    {path:'about.title', t:'input', l:'标题'},
+    {path:'about.subtitle', t:'input', l:'副标题（英文）'},
+    {path:'about.avatar', t:'input', l:'头像字（圆形里的字）'}
+  ], lists:[{path:'about.paragraphs', t:'lines', l:'介绍段落（每行一段）'}]},
+  { sec:'技能栈', fields:[
+    {path:'skills.title', t:'input', l:'栏目标题'},
+    {path:'skills.subtitle', t:'input', l:'栏目副标题（英文）'}
+  ], items:{path:'skills.items',
+      fields:[ {k:'icon',l:'图标（emoji）'},{k:'name',l:'名称'},{k:'desc',l:'描述（textarea）',t:'area'},{k:'level',l:'熟练度 0-100',t:'num'} ]}},
+  { sec:'项目', fields:[
+    {path:'projects.title', t:'input', l:'栏目标题'},
+    {path:'projects.subtitle', t:'input', l:'栏目副标题（英文）'}
+  ], items:{path:'projects.items',
+      fields:[ {k:'icon',l:'图标（emoji）'},{k:'name',l:'名称'},{k:'desc',l:'描述（textarea）',t:'area'},{k:'chips',l:'标签（逗号分隔）'} ]}},
+  { sec:'博客', fields:[
+    {path:'blog.title', t:'input', l:'栏目标题'},
+    {path:'blog.subtitle', t:'input', l:'栏目副标题（英文）'}
+  ], items:{path:'blog.items',
+      fields:[ {k:'title',l:'文章标题'},{k:'meta',l:'日期 · 分类'},{k:'link',l:'链接（可选）'} ]}},
+  { sec:'联系方式', fields:[
+    {path:'contact.title', t:'input', l:'标题'},
+    {path:'contact.subtitle', t:'input', l:'副标题（英文）'},
+    {path:'contact.heading', t:'input', l:'主文案'},
+    {path:'contact.email', t:'input', l:'邮箱'},
+    {path:'contact.githubUser', t:'input', l:'GitHub 显示名'}
+  ]}
+];
+
+/* ============ 工具 ============ */
+const $ = s => document.querySelector(s);
+function getObj(obj, path){ return path.split('.').reduce((o,k)=>o && o[k], obj); }
+function setObj(obj, path, v){ const ks = path.split('.'); let o = obj; for (let i=0;i<ks.length-1;i++){ if (typeof o[ks[i]] !== 'object' || o[ks[i]] === null) o[ks[i]] = {}; o = o[ks[i]]; } o[ks[ks.length-1]] = v; }
+let DATA = null;
+
+function el(tag, cls, text){ const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+function fieldNode(path, label, type){
+  const d = el('div','f');
+  d.appendChild(el('label',null,label));
+  let inp;
+  if (type === 'area'){ inp = document.createElement('textarea'); }
+  else { inp = document.createElement('input'); inp.type = 'text'; }
+  inp.dataset.path = path;
+  d.appendChild(inp);
+  return d;
+}
+function linesNode(path, label){
+  const d = el('div','f'); d.style.minWidth = '100%';
+  d.appendChild(el('label',null,label));
+  const ta = document.createElement('textarea'); ta.rows = 5; ta.dataset.lines = path;
+  d.appendChild(ta); return d;
+}
+
+/* ============ 渲染表单 ============ */
+function renderForm(){
+  const root = $('#form'); root.textContent = '';
+  SCHEMA.forEach(sec => {
+    const card = el('div','card'); card.appendChild(el('h2',null,sec.sec));
+    if (sec.fields){
+      const row = el('div','row');
+      sec.fields.forEach(f => row.appendChild(fieldNode(f.path, f.l, f.t)));
+      card.appendChild(row);
+    }
+    (sec.lists || []).forEach(ls => { const row = el('div','row'); row.appendChild(linesNode(ls.path, ls.l)); card.appendChild(row); });
+    if (sec.items){
+      const cfg = sec.items;
+      const listWrap = el('div'); listWrap.dataset.items = cfg.path;
+      const addBtn = el('button','addbtn','＋ 添加一项');
+      addBtn.type = 'button';
+      addBtn.addEventListener('click', () => { const arr = getObj(DATA, cfg.path); arr.push(blankItem(cfg)); setObj(DATA, cfg.path, arr); fillItems(cfg); });
+      card.appendChild(listWrap); card.appendChild(addBtn);
+      card.dataset.cfg = JSON.stringify({path: cfg.path, fields: cfg.fields});
+    }
+    root.appendChild(card);
+  });
+}
+function blankItem(cfg){
+  const it = {};
+  cfg.fields.forEach(f => { it[f.k] = f.t === 'num' ? 50 : ''; });
+  if (cfg.path.includes('skills')) it.icon = '✨';
+  if (cfg.path.includes('projects')) { it.icon = '🆕'; it.chips = []; }
+  return it;
+}
+function itemCard(cfg, item, idx){
+  const d = el('div','item');
+  const del = el('button','del','删除'); del.type = 'button';
+  del.addEventListener('click', () => { const arr = getObj(DATA, cfg.path); arr.splice(idx,1); fillItems(cfg); });
+  d.appendChild(del);
+  const row = el('div','row');
+  cfg.fields.forEach(f => {
+    if (f.t === 'area'){ const w = el('div','f'); w.style.minWidth='100%'; w.appendChild(el('label',null,f.l));
+      const ta = document.createElement('textarea'); ta.rows = 2; ta.dataset.k = f.k; ta.value = item[f.k] || ''; w.appendChild(ta); d.appendChild(w); }
+    else { const w = fieldNode('', f.l, f.t === 'num' ? 'input' : 'input'); const inp = w.querySelector('input');
+      inp.dataset.k = f.k; inp.value = item[f.k] != null ? item[f.k] : ''; if (f.t === 'num'){ inp.type='number'; inp.min=0; inp.max=100; }
+      row.appendChild(w); }
+  });
+  d.appendChild(row);
+  return d;
+}
+function fillItems(cfg){
+  const wrap = document.querySelector('[data-items="' + cfg.path + '"]');
+  wrap.textContent = '';
+  (getObj(DATA, cfg.path) || []).forEach((it, i) => wrap.appendChild(itemCard(cfg, it, i)));
+}
+
+/* ============ 数据 ↔ 表单 ============ */
+function fillForm(){
+  SCHEMA.forEach(sec => {
+    (sec.fields || []).forEach(f => { const n = document.querySelector('[data-path="' + f.path + '"]'); if (n) n.value = getObj(DATA, f.path) || ''; });
+    (sec.lists || []).forEach(ls => { const n = document.querySelector('[data-lines="' + ls.path + '"]'); if (n) n.value = (getObj(DATA, ls.path) || []).join('\n'); });
+    if (sec.items) fillItems(sec.items);
+  });
+}
+function collect(){
+  SCHEMA.forEach(sec => {
+    (sec.fields || []).forEach(f => { const n = document.querySelector('[data-path="' + f.path + '"]'); if (n) setObj(DATA, f.path, n.value.trim()); });
+    (sec.lists || []).forEach(ls => { const n = document.querySelector('[data-lines="' + ls.path + '"]');
+      if (n) setObj(DATA, ls.path, n.value.split('\n').map(s => s.trim()).filter(Boolean)); });
+    if (sec.items){
+      const cfg = sec.items;
+      const wrap = document.querySelector('[data-items="' + cfg.path + '"]');
+      const arr = [];
+      wrap.querySelectorAll('.item').forEach(card => {
+        const it = {};
+        cfg.fields.forEach(f => {
+          const n = card.querySelector('[data-k="' + f.k + '"]');
+          if (f.k === 'chips') it.chips = n.value.split(/[,，]/).map(s => s.trim()).filter(Boolean);
+          else if (f.t === 'num') it[f.k] = Math.max(0, Math.min(100, parseInt(n.value, 10) || 0));
+          else it[f.k] = n.value.trim();
+        });
+        arr.push(it);
+      });
+      setObj(DATA, cfg.path, arr);
+    }
+  });
+  return DATA;
+}
+
+/* ============ 状态与按钮 ============ */
+function setStatus(msg, cls){ const s = $('#status'); s.textContent = msg; s.className = 'status ' + (cls || ''); }
+
+/* ============ GitHub API ============ */
+function apiBase(repo){ return 'https://api.github.com/repos/' + repo + '/contents/content.json'; }
+async function ghGet(repo, token){
+  const r = await fetch(apiBase(repo) + '?ref=main&t=' + Date.now(), { headers: { Authorization: 'Bearer ' + token, Accept: 'application/vnd.github+json' } });
+  if (r.status === 404) return null;
+  if (!r.ok) throw new Error('读取失败 HTTP ' + r.status);
+  return r.json();
+}
+async function ghPut(repo, token, text, sha){
+  const body = { message: 'update site content via admin', branch: 'main', content: btoa(unescape(encodeURIComponent(text))) };
+  if (sha) body.sha = sha;
+  const r = await fetch(apiBase(repo), { method: 'PUT', headers: { Authorization: 'Bearer ' + token, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  if (!r.ok){ const e = await r.json().catch(()=>({})); throw new Error('保存失败 HTTP ' + r.status + (e.message ? '：' + e.message : '')); }
+  return r.json();
+}
+
+/* ============ 事件 ============ */
+$('#loadBtn').addEventListener('click', async () => {
+  setStatus('加载中…', 'busy');
+  try {
+    const r = await fetch('content.json', { cache: 'no-store' });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    DATA = await r.json();
+    renderForm(); fillForm();
+    setStatus('已加载线上内容', 'ok');
+  } catch (e){ setStatus('加载失败：' + e.message, 'err'); }
+});
+$('#saveBtn').addEventListener('click', async () => {
+  const repo = $('#repo').value.trim();
+  const token = $('#token').value.trim();
+  if (!repo || !token){ setStatus('请先填写仓库和 Token', 'err'); return; }
+  if ($('#remember').checked) localStorage.setItem('ps_admin', JSON.stringify({ repo, token }));
+  else localStorage.removeItem('ps_admin');
+  setStatus('保存中…', 'busy');
+  try {
+    const json = JSON.stringify(collect(), null, 2);
+    JSON.parse(json); // 校验
+    const meta = await ghGet(repo, token);
+    await ghPut(repo, token, json, meta ? meta.sha : null);
+    setStatus('已保存 ✓ Pages 约 1～2 分钟后生效', 'ok');
+  } catch (e){ setStatus(e.message, 'err'); }
+});
+$('#exportBtn').addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify(collect(), null, 2)], { type: 'application/json' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'content-backup.json'; a.click();
+});
+
+/* ============ 启动 ============ */
+(function init(){
+  const saved = localStorage.getItem('ps_admin');
+  if (saved){ try { const s = JSON.parse(saved); $('#repo').value = s.repo || $('#repo').value; $('#token').value = s.token || ''; $('#remember').checked = true; } catch(e){} }
+  $('#loadBtn').click();
+})();
+</script>
+</body>
+</html>
